@@ -2,7 +2,7 @@ import numpy as np
 from reader import *
 
 '''
-For an integer max_size, returns tuples of all possible numbers a, b where a < b and a * b = max_size.
+For an integer max_size, returns tuples of all possible integers a, b where a < b and a * b = max_size.
 '''
 def all_perms(max_size):
     result = []
@@ -29,6 +29,7 @@ Solves the pizza problem recursively.
 def solve(R, C, L, H, pizza, used):
     max_size = 2 * H
     num_slices = 0
+    output = []
     while True:
         perms = all_perms(max_size)
         for perm in perms:
@@ -42,26 +43,26 @@ def solve(R, C, L, H, pizza, used):
                                     for l in range(j, j + perm[1]):
                                         used[k][l] = 1
                                 num_slices += 1
+                                output.append((i, j, i + perm[0], j + perm[1]))
                                 break
                             # continue
-            ### This following part is supposed to reverse each permutation on row and column,
-            ### though I need to fix it.
-            # if perm[0] <= R and perm[1] <= C:
-            #     for j in range(R - perm[0] + 1):
-            #         for i in range(C - perm[1] + 1):
-            #             if not sum_cells(i, j, perm[0], perm[1], used):
-            #                 mushroom = sum_cells(i, j, m, n, pizza)
-            #                 if mushroom >= L and max_size - mushroom >= L:
-            #                     for k in range(i, i + perm[0]):
-            #                         for l in range(j, j + perm[1]):
-            #                             used[k][l] = 1
-            #                     num_slices += 1
-            #                     break
-            #                 # continue
+            if perm[1] <= R and perm[0] <= C:
+                for i in range(R - perm[1] + 1):
+                    for j in range(C - perm[0] + 1):
+                        if not sum_cells(i, j, perm[1], perm[0], used):
+                            mushroom = sum_cells(i, j, m, n, pizza)
+                            if mushroom >= L and max_size - mushroom >= L:
+                                for k in range(i, i + perm[1]):
+                                    for l in range(j, j + perm[0]):
+                                        used[k][l] = 1
+                                num_slices += 1
+                                output.append((i, j, i + perm[1], j + perm[0]))
+                                break
+                            # continue
         if sum([sum(r) for r in used]) == R * C:
             break
         max_size -= 1
-    return num_slices
+    return (num_slices, output)
                         
 R, C, L, H, pizza, used = read("a_example.in")
-print(solve(R, C, L, H, pizza, used))
+print(solve(R, C, L, H, pizza, used)[0])
