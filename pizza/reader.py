@@ -3,10 +3,7 @@ def read(filename):
     0 -- Tomato
     1 -- Mushroom
     """
-    try:
-        f = open(filename, "r")
-    except:
-        raise FileNotFoundError
+    f = open(filename)
     r, c, l, h = tuple([int(parameter) for parameter in f.readline().split()])
 
     pizza = []
