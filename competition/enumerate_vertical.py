@@ -22,8 +22,6 @@ def join_verticals(filename):
 
     mapping = dict()
 
-    # print(vertical_photos_cnt)
-
     for i in range(vertical_photos_cnt - 1):
         print("iterating from " + str(i) + "th vertical...")
         for j in range(i + 1, vertical_photos_cnt):
@@ -43,7 +41,7 @@ def join_verticals(filename):
             output.append(((item[0][0], item[0][1]), list(set(labels[item[0][0]]).union(set(labels[item[0][1]])))))
 
     for photo in horizontal_photos:
-        output.append(((photo), labels[photo]))
+        output.append((tuple([photo]), labels[photo]))
 
     print("sorting verticals for " + filename + " finished.")
 
