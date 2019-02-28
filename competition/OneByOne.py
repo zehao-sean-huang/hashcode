@@ -11,7 +11,7 @@ def calScore(a, b):
 			x += 1
 	for item in b:
 		if item not in a:
-			z ++
+			z += 1
 	return min(x, y, z)
 
 # Input: a list of labels
@@ -24,7 +24,7 @@ def oneByOne(li):
 	result = []			# the final result
 
 	for i in range(len(li)):
-		chosen.append(1);
+		chosen.append(1)
 
 	def findNext():
 		nonlocal current, result, chosen
